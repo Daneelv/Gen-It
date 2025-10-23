@@ -1,0 +1,5 @@
+{
+  "name": "RSA Tester Utility",
+  "description": "A utility to generate valid test data like Barcodes, South African ID Numbers, SIM Numbers, and IMEI Numbers, with options to export as printable barcodes in PDF format.",
+  "requestFramePermissions": []
+}
