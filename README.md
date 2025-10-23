@@ -18,7 +18,8 @@
 
 ## 📜 About
 
-This app generates barcodes, sim numbers, imei numbers and id numbers, I This app is mostly used for my at work to create test data
+This app generates barcodes, SIM numbers, IMEI numbers, and ID numbers. 
+I mainly use it at work to create test data.
 
 ---
 
