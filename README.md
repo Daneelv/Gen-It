@@ -37,6 +37,7 @@ I mainly use it at work to create test data.
 
 **Frontend:** React.js, HTML, CSS  
 **Backend:** React.js
+
 **Database:** Local Storage on the browser
 
 ---
