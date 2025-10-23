@@ -1,20 +1,54 @@
-<div align="center">
-<img width="1200" height="475" alt="GHBanner" src="https://github.com/user-attachments/assets/0aa67016-6eaf-458a-adb2-6e31a0763ed6" />
-</div>
+# Gen-IT
 
-# Run and deploy your AI Studio app
+> RSA ID/ BARCODE ect generator utility developed with React.js
 
-This contains everything you need to run your app locally.
+[![License](https://img.shields.io/badge/license-MIT-blue.svg)](LICENSE)
+[![Status](https://img.shields.io/badge/status-repo%20only-active.svg)]()
 
-View your app in AI Studio: https://ai.studio/apps/drive/16IjQI-mnlVpkaTp2RCXR7W7Y8whElqCM
+---
 
-## Run Locally
+## 📸 Demo / Screenshots
 
-**Prerequisites:**  Node.js
+<p align="center">
+  <img src="Docs/React Memory.gif" alt="React Memory gif" width="700">
+  
+</p>
 
+---
 
-1. Install dependencies:
-   `npm install`
-2. Set the `GEMINI_API_KEY` in [.env.local](.env.local) to your Gemini API key
-3. Run the app:
-   `npm run dev`
+## 📜 About
+
+This app generates barcodes, sim numbers, imei numbers and id numbers, I This app is mostly used for my at work to create test data
+
+---
+
+## ✨ Features
+
+- ✅ Generate Imei's
+- ✅ Generate Sim Numbers
+- ✅ Generate RSA ID's
+- ✅ Generate Passport Numbers
+- ✅ Export the barcodes to PDF
+
+---
+
+## 🛠 Tech Stack
+
+**Frontend:** React.js, HTML, CSS  
+**Backend:** React.js
+**Database:** Local Storage on the browser
+
+---
+
+## ⚙️ Installation
+
+```bash
+# Clone the repo
+git clone https://github.com/Daneelv/Gen-It.git
+
+# Install dependencies
+npm install
+
+# Run locally
+npm run dev
+```
