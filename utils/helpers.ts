@@ -187,6 +187,33 @@ export const generateImei = (tac: string = ''): string => {
   return `${baseImei}${checksum}`;
 };
 
+// --- RSA Phone Number Generator ---
+const RSA_MOBILE_PREFIXES = [
+    '060', '061', '062', '063', '064', '065', '066', '067', '068', '071', 
+    '072', '073', '074', '076', '078', '079', '081', '082', '083', '084'
+];
+
+export const generateRsaPhoneNumber = (options: { format: 'Local' | 'International' | 'Random' }): string => {
+  const { format } = options;
+  const prefix = RSA_MOBILE_PREFIXES[Math.floor(Math.random() * RSA_MOBILE_PREFIXES.length)];
+  
+  let randomNumberPart = '';
+  for (let i = 0; i < 7; i++) {
+    randomNumberPart += Math.floor(Math.random() * 10);
+  }
+  
+  const localNumber = `${prefix}${randomNumberPart}`;
+
+  const resolvedFormat = format === 'Random' ? (Math.random() > 0.5 ? 'Local' : 'International') : format;
+
+  if (resolvedFormat === 'International') {
+    return `+27${localNumber.substring(1)}`;
+  }
+  
+  return localNumber;
+};
+
+
 // --- RSA Passport Generator ---
 export const generateRsaPassport = (): string => {
   const prefix = 'P';

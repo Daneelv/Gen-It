@@ -1,3 +1,4 @@
+
 import React, { useState } from 'react';
 import { HashRouter, Routes, Route } from 'react-router-dom';
 import Sidebar from './components/Sidebar';
@@ -7,6 +8,7 @@ import RsaIdGenerator from './pages/RsaIdGenerator';
 import RsaSimGenerator from './pages/RsaSimGenerator';
 import ImeiGenerator from './pages/ImeiGenerator';
 import RsaPassportGenerator from './pages/RsaPassportGenerator';
+import RsaPhoneGenerator from './pages/RsaPhoneGenerator';
 
 // --- Persistent State Hook ---
 export function usePersistentState<T>(key: string, defaultValue: T): [T, React.Dispatch<React.SetStateAction<T>>] {
@@ -45,7 +47,7 @@ const App: React.FC = () => {
       <div className="relative min-h-screen md:flex bg-gray-50 dark:bg-gray-900">
         {/* Mobile Header */}
         <div className="md:hidden flex justify-between items-center p-4 bg-white dark:bg-gray-800 border-b dark:border-gray-700">
-          <h2 className="text-2xl font-semibold text-primary-600 dark:text-primary-400">RSA Tester</h2>
+          <h2 className="text-2xl font-semibold text-primary-600 dark:text-primary-400">Gen IT</h2>
           <button 
             onClick={() => setIsSidebarOpen(true)} 
             className="text-gray-500 dark:text-gray-400 focus:outline-none focus:text-gray-600 dark:focus:text-gray-300"
@@ -65,6 +67,7 @@ const App: React.FC = () => {
             <Route path="/rsa-passport" element={<RsaPassportGenerator />} />
             <Route path="/sim-cards" element={<RsaSimGenerator />} />
             <Route path="/imei" element={<ImeiGenerator />} />
+            <Route path="/rsa-phone" element={<RsaPhoneGenerator />} />
           </Routes>
         </main>
       </div>
