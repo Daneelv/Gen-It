@@ -7,6 +7,14 @@ const RsaPassportGenerator: React.FC = () => {
   const [count, setCount] = usePersistentState<number>('passport_count', 10);
   const [generatedPassports, setGeneratedPassports] = usePersistentState<string[]>('passport_generated', []);
   const [showBarcodes, setShowBarcodes] = usePersistentState<boolean>('passport_showBarcodes', false);
+  const [copiedValue, setCopiedValue] = React.useState<string | null>(null);
+
+  const handleCopy = (value: string) => {
+    navigator.clipboard.writeText(value).then(() => {
+      setCopiedValue(value);
+      setTimeout(() => setCopiedValue(null), 1500);
+    });
+  };
 
   const handleGenerate = () => {
     const passports = Array.from({ length: count }, () => generateRsaPassport());
@@ -54,14 +62,18 @@ const RsaPassportGenerator: React.FC = () => {
         {generatedPassports.length > 0 ? (
           <div className={`grid gap-4 ${showBarcodes ? 'grid-cols-1 md:grid-cols-2' : 'grid-cols-2 md:grid-cols-3'} max-h-96 overflow-y-auto p-2 border rounded-lg dark:border-gray-700`}>
             {generatedPassports.map((passport, index) => (
-              <div key={index} className="p-2 bg-gray-50 dark:bg-gray-700 rounded text-center">
+              <div
+                key={index}
+                className="p-2 bg-gray-50 dark:bg-gray-700 rounded text-center cursor-pointer hover:bg-gray-100 dark:hover:bg-gray-600 transition-colors"
+                onClick={() => handleCopy(passport)}
+              >
                 {showBarcodes ? (
                   <div className="flex flex-col items-center">
                     <BarcodeDisplay value={passport} format="CODE128" />
-                    <p className="mt-2 text-sm font-mono tracking-wider">{passport}</p>
+                    <p className="mt-2 text-sm font-mono tracking-wider">{copiedValue === passport ? 'Copied!' : passport}</p>
                   </div>
                 ) : (
-                  <p className="font-mono text-sm md:text-base tracking-wider p-2">{passport}</p>
+                  <p className="font-mono text-sm md:text-base tracking-wider p-2">{copiedValue === passport ? 'Copied!' : passport}</p>
                 )}
               </div>
             ))}

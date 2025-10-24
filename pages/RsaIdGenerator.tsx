@@ -12,6 +12,14 @@ const RsaIdGenerator: React.FC = () => {
   const [count, setCount] = usePersistentState<number>('id_count', 10);
   const [generatedIds, setGeneratedIds] = usePersistentState<string[]>('id_generated', []);
   const [showBarcodes, setShowBarcodes] = usePersistentState<boolean>('id_showBarcodes', false);
+  const [copiedValue, setCopiedValue] = React.useState<string | null>(null);
+
+  const handleCopy = (value: string) => {
+    navigator.clipboard.writeText(value).then(() => {
+      setCopiedValue(value);
+      setTimeout(() => setCopiedValue(null), 1500);
+    });
+  };
 
   const handleGenerate = () => {
     const ids = Array.from({ length: count }, () => generateRsaId({ minAge, maxAge, gender }));
@@ -78,14 +86,18 @@ const RsaIdGenerator: React.FC = () => {
         {generatedIds.length > 0 ? (
           <div className={`grid gap-4 ${showBarcodes ? 'grid-cols-1 md:grid-cols-2' : 'grid-cols-2 md:grid-cols-3 lg:grid-cols-4'} max-h-96 overflow-y-auto p-2 border rounded-lg dark:border-gray-700`}>
             {generatedIds.map((id, index) => (
-              <div key={index} className="p-2 bg-gray-50 dark:bg-gray-700 rounded text-center">
+              <div
+                key={index}
+                className="p-2 bg-gray-50 dark:bg-gray-700 rounded text-center cursor-pointer hover:bg-gray-100 dark:hover:bg-gray-600 transition-colors"
+                onClick={() => handleCopy(id)}
+              >
                 {showBarcodes ? (
                   <div className="flex flex-col items-center">
                     <BarcodeDisplay value={id} format="CODE128" />
-                    <p className="mt-2 text-sm font-mono tracking-wider">{id}</p>
+                    <p className="mt-2 text-sm font-mono tracking-wider">{copiedValue === id ? 'Copied!' : id}</p>
                   </div>
                 ) : (
-                  <p className="font-mono text-sm md:text-base tracking-wider p-2">{id}</p>
+                  <p className="font-mono text-sm md:text-base tracking-wider p-2">{copiedValue === id ? 'Copied!' : id}</p>
                 )}
               </div>
             ))}

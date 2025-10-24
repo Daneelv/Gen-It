@@ -13,6 +13,14 @@ const RsaSimGenerator: React.FC = () => {
   const [count, setCount] = usePersistentState<number>('sim_count', 10);
   const [generatedSims, setGeneratedSims] = usePersistentState<GeneratedSim[]>('sim_generated', []);
   const [showBarcodes, setShowBarcodes] = usePersistentState<boolean>('sim_showBarcodes', false);
+  const [copiedValue, setCopiedValue] = React.useState<string | null>(null);
+
+  const handleCopy = (value: string) => {
+    navigator.clipboard.writeText(value).then(() => {
+      setCopiedValue(value);
+      setTimeout(() => setCopiedValue(null), 1500);
+    });
+  };
 
   const handleCarrierChange = (carrier: Carrier) => {
     setCarriers(prev => {
@@ -117,14 +125,18 @@ const RsaSimGenerator: React.FC = () => {
                 <h3 className="text-lg font-semibold mb-2 sticky top-0 bg-white dark:bg-gray-800 py-1 px-2 -mx-2">{getCarrierLabel(carrier as Carrier)}</h3>
                 <div className={`grid gap-4 ${showBarcodes ? 'grid-cols-1 md:grid-cols-2' : 'grid-cols-2 md:grid-cols-3'}`}>
                   {groupedSims[carrier].map((sim, index) => (
-                    <div key={index} className="p-2 bg-gray-50 dark:bg-gray-700 rounded text-center">
+                    <div
+                      key={index}
+                      className="p-2 bg-gray-50 dark:bg-gray-700 rounded text-center cursor-pointer hover:bg-gray-100 dark:hover:bg-gray-600 transition-colors"
+                      onClick={() => handleCopy(sim.number)}
+                    >
                       {showBarcodes ? (
                         <div className="flex flex-col items-center">
                           <BarcodeDisplay value={sim.number} format="CODE128" />
-                          <p className="mt-2 text-sm font-mono tracking-wider">{sim.number}</p>
+                          <p className="mt-2 text-sm font-mono tracking-wider">{copiedValue === sim.number ? 'Copied!' : sim.number}</p>
                         </div>
                       ) : (
-                        <p className="font-mono text-xs md:text-sm tracking-wider p-2">{sim.number}</p>
+                        <p className="font-mono text-xs md:text-sm tracking-wider p-2">{copiedValue === sim.number ? 'Copied!' : sim.number}</p>
                       )}
                     </div>
                   ))}

@@ -7,6 +7,14 @@ const BarcodeGenerator: React.FC = () => {
   const [textList, setTextList] = usePersistentState<string>('barcode_textList', '123456789\nABC-123\nTEST-DATA');
   const [barcodeType, setBarcodeType] = usePersistentState<string>('barcode_barcodeType', 'CODE128');
   const [generatedItems, setGeneratedItems] = usePersistentState<string[]>('barcode_generatedItems', []);
+  const [copiedValue, setCopiedValue] = React.useState<string | null>(null);
+
+  const handleCopy = (value: string) => {
+    navigator.clipboard.writeText(value).then(() => {
+      setCopiedValue(value);
+      setTimeout(() => setCopiedValue(null), 1500);
+    });
+  };
 
   const handleGenerate = () => {
     const items = textList.split('\n').filter(line => line.trim() !== '');
@@ -73,9 +81,13 @@ const BarcodeGenerator: React.FC = () => {
           {generatedItems.length > 0 ? (
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 max-h-[30rem] overflow-y-auto p-2 border rounded-lg dark:border-gray-700">
               {generatedItems.map((item, index) => (
-                <div key={index} className="flex flex-col items-center p-4 bg-gray-50 dark:bg-gray-700 rounded-lg">
+                <div
+                  key={index}
+                  className="flex flex-col items-center p-4 bg-gray-50 dark:bg-gray-700 rounded-lg cursor-pointer hover:bg-gray-100 dark:hover:bg-gray-600 transition-colors"
+                  onClick={() => handleCopy(item)}
+                >
                   <BarcodeDisplay value={item} format={barcodeType} />
-                  <p className="mt-2 text-sm font-mono tracking-wider">{item}</p>
+                  <p className="mt-2 text-sm font-mono tracking-wider">{copiedValue === item ? 'Copied!' : item}</p>
                 </div>
               ))}
             </div>

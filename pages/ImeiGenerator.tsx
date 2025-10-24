@@ -8,6 +8,14 @@ const ImeiGenerator: React.FC = () => {
   const [count, setCount] = usePersistentState<number>('imei_count', 10);
   const [generatedImeis, setGeneratedImeis] = usePersistentState<string[]>('imei_generated', []);
   const [showBarcodes, setShowBarcodes] = usePersistentState<boolean>('imei_showBarcodes', false);
+  const [copiedValue, setCopiedValue] = React.useState<string | null>(null);
+
+  const handleCopy = (value: string) => {
+    navigator.clipboard.writeText(value).then(() => {
+      setCopiedValue(value);
+      setTimeout(() => setCopiedValue(null), 1500);
+    });
+  };
 
   const handleGenerate = () => {
     const imeis = Array.from({ length: count }, () => generateImei(tac));
@@ -61,14 +69,18 @@ const ImeiGenerator: React.FC = () => {
         {generatedImeis.length > 0 ? (
           <div className={`grid gap-4 ${showBarcodes ? 'grid-cols-1 md:grid-cols-2' : 'grid-cols-2 md:grid-cols-3'} max-h-96 overflow-y-auto p-2 border rounded-lg dark:border-gray-700`}>
             {generatedImeis.map((imei, index) => (
-              <div key={index} className="p-2 bg-gray-50 dark:bg-gray-700 rounded text-center">
+              <div
+                key={index}
+                className="p-2 bg-gray-50 dark:bg-gray-700 rounded text-center cursor-pointer hover:bg-gray-100 dark:hover:bg-gray-600 transition-colors"
+                onClick={() => handleCopy(imei)}
+              >
                 {showBarcodes ? (
                   <div className="flex flex-col items-center">
                     <BarcodeDisplay value={imei} format="CODE128" />
-                    <p className="mt-2 text-sm font-mono tracking-wider">{imei}</p>
+                    <p className="mt-2 text-sm font-mono tracking-wider">{copiedValue === imei ? 'Copied!' : imei}</p>
                   </div>
                 ) : (
-                  <p className="font-mono text-sm md:text-base tracking-wider p-2">{imei}</p>
+                  <p className="font-mono text-sm md:text-base tracking-wider p-2">{copiedValue === imei ? 'Copied!' : imei}</p>
                 )}
               </div>
             ))}
