@@ -98,19 +98,20 @@ const App: React.FC = () => {
         </div>
 
         <Sidebar isOpen={isSidebarOpen} setIsOpen={setIsSidebarOpen} />
-
-        <main className="flex-1 overflow-y-auto p-4 md:p-8">
-          <Routes>
-            <Route path="/" element={<Home />} />
-            <Route path="/barcodes" element={<BarcodeGenerator />} />
-            <Route path="/rsa-id" element={<RsaIdGenerator />} />
-            <Route path="/rsa-passport" element={<RsaPassportGenerator />} />
-            <Route path="/sim-cards" element={<RsaSimGenerator />} />
-            <Route path="/imei" element={<ImeiGenerator />} />
-            <Route path="/rsa-phone" element={<RsaPhoneGenerator />} />
-          </Routes>
-        </main>
-        <Footer />
+        <div className="flex flex-col flex-1">
+          <main className="flex-1 overflow-y-auto p-4 md:p-8 ">
+            <Routes>
+              <Route path="/" element={<Home />} />
+              <Route path="/barcodes" element={<BarcodeGenerator />} />
+              <Route path="/rsa-id" element={<RsaIdGenerator />} />
+              <Route path="/rsa-passport" element={<RsaPassportGenerator />} />
+              <Route path="/sim-cards" element={<RsaSimGenerator />} />
+              <Route path="/imei" element={<ImeiGenerator />} />
+              <Route path="/rsa-phone" element={<RsaPhoneGenerator />} />
+            </Routes>
+          </main>
+          <Footer />
+        </div>
       </div>
     </HashRouter>
   );
